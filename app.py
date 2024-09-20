@@ -323,41 +323,55 @@ if selected == 'Lung Cancer Prediction':
 
     st.success(lung_cancer_diagnosis)
 
-# Anemia Prediction Page
+# Anaemia Disease Prediction Page
 if selected == 'Anaemia Prediction':
+
+    # page title
     st.title('Anaemia Prediction')
 
+    # Create columns for input fields
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        gender = st.text_input('Gender')
+        Gender = st.text_input('Gender')
+
     with col2:
-        hemoglobin = st.text_input('Hemoglobin Level')
+        Hemoglobin = st.text_input('Hemoglobin Level')
+
     with col3:
-        mch = st.text_input('MCH Level')
+        MCH = st.text_input('MCH (Mean Corpuscular Hemoglobin)')
+
     with col1:
-        mchc = st.text_input('MCHC Level')
+        MCHC = st.text_input('MCHC (Mean Corpuscular Hemoglobin Concentration)')
+
     with col2:
-        mcv = st.text_input('MCV Level')
+        MCV = st.text_input('MCV (Mean Corpuscular Volume)')
 
-    anemia_diagnosis = ''
+    # code for Prediction
+    anaemia_diagnosis = ''
 
+    # creating a button for Prediction
     if st.button('Anaemia Test Result'):
-        user_input = [gender, hemoglobin, mch, mchc, mcv]
+
+        # Prepare the input list
+        user_input = [Gender, Hemoglobin, MCH, MCHC, MCV]
 
         try:
-            user_input = [float(x) if x.isdigit() else x for x in user_input]
-            anemia_prediction = anaemia_model.predict([user_input])
+            # Convert inputs to appropriate types (float for numeric fields)
+            user_input = [float(Hemoglobin), float(MCH), float(MCHC), float(MCV), 1 if Gender.lower() == 'male' else 0]
 
-            if anemia_prediction[0] == 1:
-                anemia_diagnosis = 'The person has anemia'
+            # Make prediction using the loaded anaemia model
+            anaemia_prediction = anaemia_model.predict([user_input])
+
+            if anaemia_prediction[0] == 1:
+                anaemia_diagnosis = 'The person has anaemia.'
             else:
-                anemia_diagnosis = 'The person does not have anemia'
+                anaemia_diagnosis = 'The person does not have anaemia.'
 
         except ValueError:
-            st.error("Please ensure all fields are filled with valid numeric values where applicable.")
+            st.error("Please ensure all numeric fields are filled correctly.")
 
-    st.success(anemia_diagnosis)
+    st.success(anaemia_diagnosis)
 
 # Alzheimer's Disease Prediction Page
 if selected == "Alzheimer's Prediction":
