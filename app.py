@@ -17,7 +17,7 @@ heart_disease_model = pickle.load(open(f'{working_dir}/saved_models/heart_diseas
 parkinsons_model = pickle.load(open(f'{working_dir}/saved_models/parkinsons_model.sav', 'rb'))
 lung_cancer_model = pickle.load(open(f'{working_dir}/saved_models/lung_cancer_model.sav', 'rb'))
 anaemia_model = pickle.load(open(f'{working_dir}/saved_models/anaemia_model.sav', 'rb'))
-alzheimers_model = pickle.load(open(f'{working_dir}/saved_models/alzheimer_model.sav', 'rb'))
+alzheimers_model = pickle.load(open(f'{working_dir}/saved_models/alzheimers_model.sav', 'rb'))
 
 
 # Sidebar for navigation
