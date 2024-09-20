@@ -16,18 +16,18 @@ diabetes_model = pickle.load(open(f'{working_dir}/saved_models/diabetes_model.sa
 heart_disease_model = pickle.load(open(f'{working_dir}/saved_models/heart_disease_model.sav', 'rb'))
 parkinsons_model = pickle.load(open(f'{working_dir}/saved_models/parkinsons_model.sav', 'rb'))
 lung_cancer_model = pickle.load(open(f'{working_dir}/saved_models/lung_cancer_model.sav', 'rb'))
+anaemia_model = pickle.load(open(f'{working_dir}/saved_models/anaemia_model.sav', 'rb'))
+alzheimers_model = pickle.load(open(f'{working_dir}/saved_models/alzheimer_model.sav', 'rb'))
 
-# sidebar for navigation
+
+# Sidebar for navigation
 with st.sidebar:
-    selected = option_menu('Multiple Disease Prediction System',
-
-                           ['Diabetes Prediction',
-                            'Heart Disease Prediction',
-                            'Parkinsons Prediction',
-                            'Lung Cancer Prediction'],
-                           menu_icon='hospital-fill',
-                           icons=['activity', 'heart', 'person', 'lungs'],
-                           default_index=0)
+    selected = option_menu(
+        'Multiple Disease Prediction System',
+        ['Diabetes Prediction', 'Heart Disease Prediction', 'Parkinsons Prediction', 'Lung Cancer Prediction', 'Anaemia Prediction', 'Alzheimer\'s Prediction'],
+        menu_icon='hospital-fill',
+        icons=['activity', 'heart', 'person', 'lungs', 'droplet', 'brain'],
+        default_index=0)
 
 # Diabetes Prediction Page
 if selected == 'Diabetes Prediction':
@@ -322,3 +322,135 @@ if selected == 'Lung Cancer Prediction':
             st.error("Please ensure all fields are filled with valid numeric values where applicable.")
 
     st.success(lung_cancer_diagnosis)
+
+# Anemia Prediction Page
+if selected == 'Anaemia Prediction':
+    st.title('Anaemia Prediction')
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        gender = st.text_input('Gender')
+    with col2:
+        hemoglobin = st.text_input('Hemoglobin Level')
+    with col3:
+        mch = st.text_input('MCH Level')
+    with col1:
+        mchc = st.text_input('MCHC Level')
+    with col2:
+        mcv = st.text_input('MCV Level')
+
+    anemia_diagnosis = ''
+
+    if st.button('Anaemia Test Result'):
+        user_input = [gender, hemoglobin, mch, mchc, mcv]
+
+        try:
+            user_input = [float(x) if x.isdigit() else x for x in user_input]
+            anemia_prediction = anaemia_model.predict([user_input])
+
+            if anemia_prediction[0] == 1:
+                anemia_diagnosis = 'The person has anemia'
+            else:
+                anemia_diagnosis = 'The person does not have anemia'
+
+        except ValueError:
+            st.error("Please ensure all fields are filled with valid numeric values where applicable.")
+
+    st.success(anemia_diagnosis)
+
+# Alzheimer's Disease Prediction Page
+if selected == "Alzheimer's Prediction":
+    st.title("Alzheimer's Disease Prediction")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        age = st.text_input('Age')
+    with col2:
+        gender = st.text_input('Gender')
+    with col3:
+        ethnicity = st.text_input('Ethnicity')
+    with col1:
+        education_level = st.text_input('Education Level')
+    with col2:
+        bmi = st.text_input('BMI')
+    with col3:
+        smoking = st.text_input('Smoking')
+    with col1:
+        alcohol = st.text_input('Alcohol Consumption')
+    with col2:
+        physical_activity = st.text_input('Physical Activity')
+    with col3:
+        diet_quality = st.text_input('Diet Quality')
+    with col1:
+        sleep_quality = st.text_input('Sleep Quality')
+    with col2:
+        family_history = st.text_input('Family History of Alzheimer\'s')
+    with col3:
+        cardiovascular_disease = st.text_input('Cardiovascular Disease')
+    with col1:
+        diabetes = st.text_input('Diabetes')
+    with col2:
+        depression = st.text_input('Depression')
+    with col3:
+        head_injury = st.text_input('Head Injury')
+    with col1:
+        hypertension = st.text_input('Hypertension')
+    with col2:
+        systolic_bp = st.text_input('Systolic Blood Pressure')
+    with col3:
+        diastolic_bp = st.text_input('Diastolic Blood Pressure')
+    with col1:
+        cholesterol_total = st.text_input('Total Cholesterol')
+    with col2:
+        cholesterol_ldl = st.text_input('Cholesterol LDL')
+    with col3:
+        cholesterol_hdl = st.text_input('Cholesterol HDL')
+    with col1:
+        cholesterol_triglycerides = st.text_input('Cholesterol Triglycerides')
+    with col2:
+        mmse = st.text_input('MMSE')
+    with col3:
+        functional_assessment = st.text_input('Functional Assessment')
+    with col1:
+        memory_complaints = st.text_input('Memory Complaints')
+    with col2:
+        behavioral_problems = st.text_input('Behavioral Problems')
+    with col3:
+        adl = st.text_input('ADL')
+    with col1:
+        confusion = st.text_input('Confusion')
+    with col2:
+        disorientation = st.text_input('Disorientation')
+    with col3:
+        personality_changes = st.text_input('Personality Changes')
+    with col1:
+        difficulty_completing_tasks = st.text_input('Difficulty Completing Tasks')
+    with col2:
+        forgetfulness = st.text_input('Forgetfulness')
+
+    alzheimers_diagnosis = ''
+
+    if st.button("Alzheimer's Test Result"):
+        user_input = [
+            age, gender, ethnicity, education_level, bmi, smoking, alcohol, physical_activity, diet_quality,
+            sleep_quality, family_history, cardiovascular_disease, diabetes, depression, head_injury,
+            hypertension, systolic_bp, diastolic_bp, cholesterol_total, cholesterol_ldl, cholesterol_hdl,
+            cholesterol_triglycerides, mmse, functional_assessment, memory_complaints, behavioral_problems,
+            adl, confusion, disorientation, personality_changes, difficulty_completing_tasks, forgetfulness
+        ]
+
+        try:
+            user_input = [float(x) if x.isdigit() else x for x in user_input]
+            alzheimers_prediction = alzheimers_model.predict([user_input])
+
+            if alzheimers_prediction[0] == 1:
+                alzheimers_diagnosis = "The person has Alzheimer's disease"
+            else:
+                alzheimers_diagnosis = "The person does not have Alzheimer's disease"
+
+        except ValueError:
+            st.error("Please ensure all fields are filled with valid numeric values where applicable.")
+
+    st.success(alzheimers_diagnosis)
