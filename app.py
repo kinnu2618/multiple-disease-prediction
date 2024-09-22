@@ -8,6 +8,14 @@ st.set_page_config(page_title="Health Assistant",
                    layout="wide",
                    page_icon="🧑‍⚕️")
 
+# Function to load local CSS
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+# Apply CSS
+local_css("style.css")
+
 # getting the working directory of the main.py
 working_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -16,8 +24,6 @@ diabetes_model = pickle.load(open(f'{working_dir}/saved_models/diabetes_model.sa
 heart_disease_model = pickle.load(open(f'{working_dir}/saved_models/heart_disease_model.sav', 'rb'))
 parkinsons_model = pickle.load(open(f'{working_dir}/saved_models/parkinsons_model.sav', 'rb'))
 lung_cancer_model = pickle.load(open(f'{working_dir}/saved_models/lung_cancer_model.sav', 'rb'))
-
-
 
 # Sidebar for navigation
 with st.sidebar:
@@ -93,7 +99,8 @@ if selected == 'Heart Disease Prediction':
         age = st.text_input('Age')
 
     with col2:
-        sex = st.text_input('Sex')
+        sex = st.selectbox('Sex', ('Male', 'Female'))
+        sex = 1 if sex == 'Male' else 0
 
     with col3:
         cp = st.text_input('Chest Pain types')
@@ -102,7 +109,7 @@ if selected == 'Heart Disease Prediction':
         trestbps = st.text_input('Resting Blood Pressure')
 
     with col2:
-        chol = st.text_input('Serum Cholestoral in mg/dl')
+        chol = st.text_input('Serum Cholesterol in mg/dl')
 
     with col3:
         fbs = st.text_input('Fasting Blood Sugar > 120 mg/dl')
@@ -203,33 +210,14 @@ if selected == "Parkinsons Prediction":
     with col1:
         HNR = st.text_input('HNR')
 
-    with col2:
-        RPDE = st.text_input('RPDE')
-
-    with col3:
-        DFA = st.text_input('DFA')
-
-    with col4:
-        spread1 = st.text_input('spread1')
-
-    with col5:
-        spread2 = st.text_input('spread2')
-
-    with col1:
-        D2 = st.text_input('D2')
-
-    with col2:
-        PPE = st.text_input('PPE')
-
     # code for Prediction
     parkinsons_diagnosis = ''
 
-    # creating a button for Prediction    
+    # creating a button for Prediction
     if st.button("Parkinson's Test Result"):
 
-        user_input = [fo, fhi, flo, Jitter_percent, Jitter_Abs,
-                      RAP, PPQ, DDP, Shimmer, Shimmer_dB, APQ3, APQ5,
-                      APQ, DDA, NHR, HNR, RPDE, DFA, spread1, spread2, D2, PPE]
+        user_input = [fo, fhi, flo, Jitter_percent, Jitter_Abs, RAP, PPQ, DDP,
+                      Shimmer, Shimmer_dB, APQ3, APQ5, APQ, DDA, NHR, HNR]
 
         user_input = [float(x) for x in user_input]
 
@@ -243,81 +231,76 @@ if selected == "Parkinsons Prediction":
     st.success(parkinsons_diagnosis)
 
 # Lung Cancer Prediction Page
-if selected == 'Lung Cancer Prediction':
+if selected == "Lung Cancer Prediction":
 
     # page title
-    st.title('Lung Cancer')
+    st.title("Lung Cancer")
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
 
     with col1:
-        gender = st.text_input('Gender')
-
-    with col2:
         age = st.text_input('Age')
 
-    with col3:
-        smoking = st.text_input('Smoking')
+    with col2:
+        sex = st.selectbox('Sex', ('Male', 'Female'))
+        sex = 1 if sex == 'Male' else 0
 
     with col1:
-        yellow_fingers = st.text_input('Yellow Fingers')
+        smoke = st.text_input('Smoking Status (1 for Yes, 0 for No)')
 
     with col2:
-        anxiety = st.text_input('Anxiety')
-
-    with col3:
-        peer_pressure = st.text_input('Peer Pressure')
+        yellow_fingers = st.text_input('Yellow Fingers (1 for Yes, 0 for No)')
 
     with col1:
-        chronic_disease = st.text_input('Chronic Disease')
+        anxiety = st.text_input('Anxiety (1 for Yes, 0 for No)')
 
     with col2:
-        fatigue = st.text_input('Fatigue')
-
-    with col3:
-        allergy = st.text_input('Allergy')
+        peer_pressure = st.text_input('Peer Pressure (1 for Yes, 0 for No)')
 
     with col1:
-        wheezing = st.text_input('Wheezing')
+        chronic_disease = st.text_input('Chronic Disease (1 for Yes, 0 for No)')
 
     with col2:
-        alcohol_consuming = st.text_input('Alcohol Consuming')
-
-    with col3:
-        coughing = st.text_input('Coughing')
+        fatigue = st.text_input('Fatigue (1 for Yes, 0 for No)')
 
     with col1:
-        shortness_of_breath = st.text_input('Shortness of Breath')
+        allergy = st.text_input('Allergy (1 for Yes, 0 for No)')
 
     with col2:
-        swallowing_difficulty = st.text_input('Swallowing Difficulty')
+        wheezing = st.text_input('Wheezing (1 for Yes, 0 for No)')
 
-    with col3:
-        chest_pain = st.text_input('Chest Pain')
+    with col1:
+        alcohol_consumption = st.text_input('Alcohol Consumption (1 for Yes, 0 for No)')
+
+    with col2:
+        coughing = st.text_input('Coughing (1 for Yes, 0 for No)')
+
+    with col1:
+        shortness_of_breath = st.text_input('Shortness of Breath (1 for Yes, 0 for No)')
+
+    with col2:
+        swallowing_difficulty = st.text_input('Swallowing Difficulty (1 for Yes, 0 for No)')
+
+    with col1:
+        chest_pain = st.text_input('Chest Pain (1 for Yes, 0 for No)')
 
     # code for Prediction
     lung_cancer_diagnosis = ''
 
+    # creating a button for Prediction
     if st.button('Lung Cancer Test Result'):
-        
-        # Gather user inputs
-        user_input = [gender, age, smoking, yellow_fingers, anxiety, peer_pressure,
-                      chronic_disease, fatigue, allergy, wheezing, alcohol_consuming,
+
+        user_input = [age, sex, smoke, yellow_fingers, anxiety, peer_pressure,
+                      chronic_disease, fatigue, allergy, wheezing, alcohol_consumption,
                       coughing, shortness_of_breath, swallowing_difficulty, chest_pain]
 
-        try:
-            # Attempt to convert inputs to float where necessary (e.g., for age and numeric features)
-            user_input = [float(x) if x.isdigit() else x for x in user_input]
+        user_input = [float(x) for x in user_input]
 
-            # Predict based on model
-            lung_cancer_prediction = lung_cancer_model.predict([user_input])
+        lung_cancer_prediction = lung_cancer_model.predict([user_input])
 
-            if lung_cancer_prediction[0] == 1:
-                lung_cancer_diagnosis = 'The person has lung cancer'
-            else:
-                lung_cancer_diagnosis = 'The person does not have lung cancer'
-
-        except ValueError:
-            st.error("Please ensure all fields are filled with valid numeric values where applicable.")
+        if lung_cancer_prediction[0] == 1:
+            lung_cancer_diagnosis = 'The person has lung cancer'
+        else:
+            lung_cancer_diagnosis = 'The person does not have lung cancer'
 
     st.success(lung_cancer_diagnosis)
