@@ -93,7 +93,10 @@ if selected == 'Heart Disease Prediction':
         age = st.text_input('Age')
 
     with col2:
-        sex = st.text_input('Sex')
+        # Change sex input to a dropdown for Male and Female
+        sex = st.selectbox('Sex', ('Male', 'Female'))
+        # Convert Male to 1 and Female to 0
+        sex = 1 if sex == 'Male' else 0
 
     with col3:
         cp = st.text_input('Chest Pain types')
@@ -102,10 +105,10 @@ if selected == 'Heart Disease Prediction':
         trestbps = st.text_input('Resting Blood Pressure')
 
     with col2:
-        chol = st.text_input('Serum Cholestoral in mg/dl')
+        chol = st.text_input('Serum Cholesterol in mg/dl')
 
     with col3:
-        fbs = st.text_input('Fasting Blood Sugar > 120 mg/dl')
+        fbs = st.text_input('Fasting Blood Sugar > 120 mg/dl (1 = True, 0 = False)')
 
     with col1:
         restecg = st.text_input('Resting Electrocardiographic results')
@@ -114,7 +117,7 @@ if selected == 'Heart Disease Prediction':
         thalach = st.text_input('Maximum Heart Rate achieved')
 
     with col3:
-        exang = st.text_input('Exercise Induced Angina')
+        exang = st.text_input('Exercise Induced Angina (1 = Yes, 0 = No)')
 
     with col1:
         oldpeak = st.text_input('ST depression induced by exercise')
@@ -123,10 +126,13 @@ if selected == 'Heart Disease Prediction':
         slope = st.text_input('Slope of the peak exercise ST segment')
 
     with col3:
-        ca = st.text_input('Major vessels colored by flourosopy')
+        ca = st.text_input('Major vessels colored by fluoroscopy')
 
     with col1:
-        thal = st.text_input('thal: 0 = normal; 1 = fixed defect; 2 = reversable defect')
+        # Change thal input to a dropdown for descriptive options
+        thal = st.selectbox('Thalassemia', ('Normal', 'Fixed Defect', 'Reversible Defect'))
+        # Convert to corresponding numeric values
+        thal = 0 if thal == 'Normal' else 1 if thal == 'Fixed Defect' else 2
 
     # code for Prediction
     heart_diagnosis = ''
@@ -136,6 +142,7 @@ if selected == 'Heart Disease Prediction':
 
         user_input = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
 
+        # Convert input data to float before passing to the model
         user_input = [float(x) for x in user_input]
 
         heart_prediction = heart_disease_model.predict([user_input])
@@ -146,6 +153,7 @@ if selected == 'Heart Disease Prediction':
             heart_diagnosis = 'The person does not have any heart disease'
 
     st.success(heart_diagnosis)
+
 
 # Parkinson's Prediction Page
 if selected == "Parkinsons Prediction":
