@@ -265,13 +265,19 @@ if selected == 'Lung Cancer Prediction':
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        gender = st.text_input('Gender')
+        # Change gender input to a dropdown for Male and Female
+        gender = st.selectbox('Gender', ('Male', 'Female'))
+        # Convert Male to 1 and Female to 0
+        gender = 1 if gender == 'Male' else 0
 
     with col2:
         age = st.text_input('Age')
 
     with col3:
-        smoking = st.text_input('Smoking')
+        # Change smoking input to a dropdown for Yes and No
+        smoking = st.selectbox('Smoking', ('Yes', 'No'))
+        # Convert Yes to 1 and No to 0
+        smoking = 1 if smoking == 'Yes' else 0
 
     with col1:
         yellow_fingers = st.text_input('Yellow Fingers')
