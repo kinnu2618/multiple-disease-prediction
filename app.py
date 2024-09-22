@@ -108,7 +108,10 @@ if selected == 'Heart Disease Prediction':
         chol = st.text_input('Serum Cholesterol in mg/dl')
 
     with col3:
-        fbs = st.text_input('Fasting Blood Sugar > 120 mg/dl (1 = True, 0 = False)')
+        # Change Fasting Blood Sugar input to a dropdown
+        fbs = st.selectbox('Fasting Blood Sugar > 120 mg/dl', ('True', 'False'))
+        # Convert "True" to 1 and "False" to 0
+        fbs = 1 if fbs == 'True' else 0
 
     with col1:
         restecg = st.text_input('Resting Electrocardiographic results')
@@ -117,7 +120,10 @@ if selected == 'Heart Disease Prediction':
         thalach = st.text_input('Maximum Heart Rate achieved')
 
     with col3:
-        exang = st.text_input('Exercise Induced Angina (1 = Yes, 0 = No)')
+        # Change Exercise Induced Angina input to a dropdown
+        exang = st.selectbox('Exercise Induced Angina', ('Yes', 'No'))
+        # Convert "Yes" to 1 and "No" to 0
+        exang = 1 if exang == 'Yes' else 0
 
     with col1:
         oldpeak = st.text_input('ST depression induced by exercise')
