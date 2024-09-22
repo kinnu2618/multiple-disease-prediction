@@ -70,18 +70,14 @@ if selected == 'Diabetes Prediction':
         user_input = [Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin,
                       BMI, DiabetesPedigreeFunction, Age]
 
-        try:
-            user_input = [float(x) for x in user_input]
+        user_input = [float(x) for x in user_input]
 
-            diab_prediction = diabetes_model.predict([user_input])
+        diab_prediction = diabetes_model.predict([user_input])
 
-            if diab_prediction[0] == 1:
-                diab_diagnosis = 'The person is diabetic'
-            else:
-                diab_diagnosis = 'The person is not diabetic'
-
-        except ValueError:
-                st.error("Please ensure all fields are filled with valid numeric values where applicable.")
+        if diab_prediction[0] == 1:
+            diab_diagnosis = 'The person is diabetic'
+        else:
+            diab_diagnosis = 'The person is not diabetic'
 
     st.success(diab_diagnosis)
 
@@ -140,18 +136,14 @@ if selected == 'Heart Disease Prediction':
 
         user_input = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
 
-        try:
-            user_input = [float(x) for x in user_input]
+        user_input = [float(x) for x in user_input]
 
-            heart_prediction = heart_disease_model.predict([user_input])
+        heart_prediction = heart_disease_model.predict([user_input])
 
-            if heart_prediction[0] == 1:
-                heart_diagnosis = 'The person is having heart disease'
-            else:
-                heart_diagnosis = 'The person does not have any heart disease'
-
-        except ValueError:
-                st.error("Please ensure all fields are filled with valid numeric values where applicable.")
+        if heart_prediction[0] == 1:
+            heart_diagnosis = 'The person is having heart disease'
+        else:
+            heart_diagnosis = 'The person does not have any heart disease'
 
     st.success(heart_diagnosis)
 
@@ -239,22 +231,16 @@ if selected == "Parkinsons Prediction":
                       RAP, PPQ, DDP, Shimmer, Shimmer_dB, APQ3, APQ5,
                       APQ, DDA, NHR, HNR, RPDE, DFA, spread1, spread2, D2, PPE]
 
-        try:
-            user_input = [float(x) for x in user_input]
+        user_input = [float(x) for x in user_input]
 
-            parkinsons_prediction = parkinsons_model.predict([user_input])
+        parkinsons_prediction = parkinsons_model.predict([user_input])
 
-            if parkinsons_prediction[0] == 1:
-                parkinsons_diagnosis = "The person has Parkinson's disease"
-            else:
-                parkinsons_diagnosis = "The person does not have Parkinson's disease"
-        
-        except ValueError:
-                st.error("Please ensure all fields are filled with valid numeric values where applicable.")
+        if parkinsons_prediction[0] == 1:
+            parkinsons_diagnosis = "The person has Parkinson's disease"
+        else:
+            parkinsons_diagnosis = "The person does not have Parkinson's disease"
 
     st.success(parkinsons_diagnosis)
-
-    
 
 # Lung Cancer Prediction Page
 if selected == 'Lung Cancer Prediction':
