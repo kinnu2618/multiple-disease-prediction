@@ -18,7 +18,8 @@ heart_disease_model = pickle.load(open(f'{working_dir}/saved_models/heart_diseas
 parkinsons_model = pickle.load(open(f'{working_dir}/saved_models/parkinsons_model.sav', 'rb'))
 lung_cancer_model = pickle.load(open(f'{working_dir}/saved_models/lung_cancer_model.sav', 'rb'))
 anaemia_model = pickle.load(open(f'{working_dir}/saved_models/anaemia_model.sav', 'rb'))
-hyper_model = pickle.load(open('D:/projects/multiple-disease-prediction/saved_models/hyper_model.sav', 'rb'))
+hyper_model = pickle.load(open(f'{working_dir}/saved_models/hyper_model.sav', 'rb'))
+
 
 
 # Sidebar for navigation
