@@ -18,14 +18,16 @@ heart_disease_model = pickle.load(open(f'{working_dir}/saved_models/heart_diseas
 parkinsons_model = pickle.load(open(f'{working_dir}/saved_models/parkinsons_model.sav', 'rb'))
 lung_cancer_model = pickle.load(open(f'{working_dir}/saved_models/lung_cancer_model.sav', 'rb'))
 anaemia_model = pickle.load(open(f'{working_dir}/saved_models/anaemia_model.sav', 'rb'))
+hyper_model = pickle.load(open('D:/projects/multiple-disease-prediction/saved_models/hyper_model.sav', 'rb'))
+
 
 # Sidebar for navigation
 with st.sidebar:
     selected = option_menu(
         'Multiple Disease Prediction System',
-        ['Diabetes Prediction', 'Heart Disease Prediction', 'Parkinsons Prediction', 'Lung Cancer Prediction', 'Anaemia Prediction'],
+        ['Diabetes Prediction', 'Heart Disease Prediction', 'Parkinsons Prediction', 'Lung Cancer Prediction', 'Anaemia Prediction', 'Hypertension Prediction'],
         menu_icon='hospital-fill',
-        icons=['activity', 'heart', 'person', 'lungs', 'droplet'],
+        icons=['activity', 'heart', 'person', 'lungs', 'droplet', 'thermometer'],
         default_index=0)
 
 # Diabetes Prediction Page
@@ -400,3 +402,79 @@ if selected == 'Anaemia Prediction':
             st.error("Please ensure all fields are filled with valid numeric values where applicable.")
 
     st.success(anaemia_diagnosis)
+
+
+# Hypertension Prediction Page
+if selected == 'Hypertension Prediction':
+    # Page title
+    st.title('Hypertension Prediction')
+
+    # Getting the input data from the user
+    col1, col2 = st.columns(2)
+
+    with col1:
+        Gender = st.selectbox('Gender', ('Male', 'Female'))
+        Gender = 1 if Gender == 'Male' else 0
+
+        age = st.text_input('Age')
+
+        currentSmoker = st.selectbox('Current Smoker', ('Yes', 'No'))
+        currentSmoker = 1 if currentSmoker == 'Yes' else 0
+
+        cigsPerDay = st.text_input('Cigarettes Per Day')
+
+        BPMeds = st.selectbox('On BP Medication', ('Yes', 'No'))
+        BPMeds = 1 if BPMeds == 'Yes' else 0
+
+    with col2:
+        diabetes = st.selectbox('Diabetes', ('Yes', 'No'))
+        diabetes = 1 if diabetes == 'Yes' else 0
+
+        totChol = st.text_input('Total Cholesterol')
+
+        sysBP = st.text_input('Systolic Blood Pressure (sysBP)')
+
+        diaBP = st.text_input('Diastolic Blood Pressure (diaBP)')
+
+        BMI = st.text_input('Body Mass Index (BMI)')
+
+        heartRate = st.text_input('Heart Rate')
+
+        glucose = st.text_input('Glucose Level')
+
+    # Code for Prediction
+    hyper_diagnosis = ''
+
+    # Create a button for Prediction
+    if st.button('Hypertension Test Result'):
+        try:
+            # Validate and convert user inputs
+            age = float(age) if age else None
+            cigsPerDay = float(cigsPerDay) if cigsPerDay else None
+            totChol = float(totChol) if totChol else None
+            sysBP = float(sysBP) if sysBP else None
+            diaBP = float(diaBP) if diaBP else None
+            BMI = float(BMI) if BMI else None
+            heartRate = float(heartRate) if heartRate else None
+            glucose = float(glucose) if glucose else None
+
+            if None in (age, cigsPerDay, totChol, sysBP, diaBP, BMI, heartRate, glucose):
+                st.error("Please fill all fields with valid numeric values.")
+            else:
+                # Input data for the model
+                user_input = [Gender, age, currentSmoker, cigsPerDay, BPMeds, diabetes, totChol, sysBP, diaBP, BMI, heartRate, glucose]
+                input_data_as_numpy_array = np.asarray(user_input).reshape(1, -1)
+
+                # Make prediction using the model
+                prediction = hyper_model.predict(input_data_as_numpy_array)
+
+                # Interpret the prediction
+                if prediction[0] == 1:
+                    hyper_diagnosis = 'This person has hypertension.'
+                else:
+                    hyper_diagnosis = 'This person does not have hypertension.'
+
+        except ValueError:
+            st.error("Please ensure all fields are filled with valid numeric values where applicable.")
+
+    st.success(hyper_diagnosis)
