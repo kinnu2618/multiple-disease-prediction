@@ -16,16 +16,16 @@ diabetes_model = pickle.load(open(f'{working_dir}/saved_models/diabetes_model.sa
 heart_disease_model = pickle.load(open(f'{working_dir}/saved_models/heart_disease_model.sav', 'rb'))
 parkinsons_model = pickle.load(open(f'{working_dir}/saved_models/parkinsons_model.sav', 'rb'))
 lung_cancer_model = pickle.load(open(f'{working_dir}/saved_models/lung_cancer_model.sav', 'rb'))
-
+anaemia_model = pickle.load(open(f'{working_dir}/saved_models/anaemia_model.sav', 'rb'))
 
 
 # Sidebar for navigation
 with st.sidebar:
     selected = option_menu(
         'Multiple Disease Prediction System',
-        ['Diabetes Prediction', 'Heart Disease Prediction', 'Parkinsons Prediction', 'Lung Cancer Prediction'],
+        ['Diabetes Prediction', 'Heart Disease Prediction', 'Parkinsons Prediction', 'Lung Cancer Prediction', 'Anaemia Prediction'],
         menu_icon='hospital-fill',
-        icons=['activity', 'heart', 'person', 'lungs'],
+        icons=['activity', 'heart', 'person', 'lungs', 'droplet'],
         default_index=0)
 
 # Diabetes Prediction Page
@@ -341,3 +341,55 @@ if selected == 'Lung Cancer Prediction':
             st.error("Please ensure all fields are filled with valid numeric values where applicable.")
 
     st.success(lung_cancer_diagnosis)
+
+
+# Anaemia Prediction Page
+if selected == 'Anaemia Prediction':
+
+    # Page title
+    st.title('Anaemia Prediction')
+
+    # Getting the input data from the user
+    col1, col2 = st.columns(2)
+
+    with col1:
+        Gender = st.selectbox('Gender', ('Male', 'Female'))
+        # Convert Male to 1 and Female to 0
+        Gender = 1 if Gender == 'Male' else 0
+
+    with col2:
+        Hemoglobin = st.text_input('Hemoglobin Level')
+
+    with col1:
+        MCH = st.text_input('Mean Corpuscular Hemoglobin (MCH)')
+
+    with col2:
+        MCHC = st.text_input('Mean Corpuscular Hemoglobin Concentration (MCHC)')
+
+    with col1:
+        MCV = st.text_input('Mean Corpuscular Volume (MCV)')
+
+    # Code for Prediction
+    anaemia_diagnosis = ''
+
+    # Create a button for Prediction
+    if st.button('Anaemia Test Result'):
+
+        try:
+            # Convert user inputs into a list and then to a numpy array
+            user_input = [Gender, float(Hemoglobin), float(MCH), float(MCHC), float(MCV)]
+            input_data_as_numpy_array = np.asarray(user_input).reshape(1, -1)
+
+            # Make prediction using the model
+            prediction = anaemia_model.predict(input_data_as_numpy_array)
+
+            # Interpret the prediction
+            if prediction[0] == 1:
+                anaemia_diagnosis = 'The person has anaemia'
+            else:
+                anaemia_diagnosis = 'The person does not have anaemia'
+
+        except ValueError:
+            st.error("Please enter valid numeric values for all fields.")
+
+    st.success(anaemia_diagnosis)
