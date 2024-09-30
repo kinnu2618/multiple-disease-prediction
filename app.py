@@ -373,22 +373,29 @@ if selected == 'Anaemia Prediction':
 
     # Create a button for Prediction
     if st.button('Anaemia Test Result'):
-
         try:
-            # Convert user inputs into a list and then to a numpy array
-            user_input = [Gender, float(Hemoglobin), float(MCH), float(MCHC), float(MCV)]
-            input_data_as_numpy_array = np.asarray(user_input).reshape(1, -1)
+            # Validate and convert user inputs
+            Hemoglobin = float(Hemoglobin) if Hemoglobin else None
+            MCH = float(MCH) if MCH else None
+            MCHC = float(MCHC) if MCHC else None
+            MCV = float(MCV) if MCV else None
 
-            # Make prediction using the model
-            prediction = anaemia_model.predict(input_data_as_numpy_array)
-
-            # Interpret the prediction
-            if prediction[0] == 1:
-                anaemia_diagnosis = 'The person has anaemia'
+            if None in (Hemoglobin, MCH, MCHC, MCV):
+                st.error("Please fill all fields with valid numeric values.")
             else:
-                anaemia_diagnosis = 'The person does not have anaemia'
+                user_input = [Gender, Hemoglobin, MCH, MCHC, MCV]
+                input_data_as_numpy_array = np.asarray(user_input).reshape(1, -1)
+
+                # Make prediction using the model
+                prediction = anaemia_model.predict(input_data_as_numpy_array)
+
+                # Interpret the prediction
+                if prediction[0] == 1:
+                    anaemia_diagnosis = 'The person has anaemia'
+                else:
+                    anaemia_diagnosis = 'The person does not have anaemia'
 
         except ValueError:
-            st.error("Please enter valid numeric values for all fields.")
+            st.error("Please ensure all fields are filled with valid numeric values where applicable.")
 
     st.success(anaemia_diagnosis)
